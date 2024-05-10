@@ -1,0 +1,28 @@
+<?php
+session_start();
+
+// Kết nối CSDL
+$conn = new mysqli('mysql-15797c5f-st-3738.l.aivencloud.com','avnadmin','AVNS_9MExJNgf9_7MscIHIyR','QuanLySach') or die('Kết nối thất bại');
+
+
+$username = $_POST['username'];
+$password = $_POST["password"];
+
+
+// Chuẩn bị truy vấn SQL để kiểm tra thông tin đăng nhập
+$sql = "SELECT * FROM User WHERE TenUser='$username' AND MatKhau='$password'";
+$result = mysqli_query($conn, $sql);
+
+
+// Kiểm tra kết quả truy vấn
+if (mysqli_num_rows($result) > 0) { //$result->num_rows
+    $_SESSION['IsLogin'] = true;
+    // Redirect về trang bảo mật sau khi đăng nhập thành công
+    header("Location: database.php");
+    
+} else {
+    // Nếu thông tin đăng nhập không hợp lệ, redirect về trang login
+    header("Location: login.html");
+}
+
+?>
